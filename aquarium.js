@@ -4,6 +4,9 @@ let aquariumName = "My Aquarium";
 let foodX, foodY;
 let foodDropped = false;
 let bubbles = [];
+let fishColor2
+let fish2X, fish2Y, fish2Size
+let movingLeft = false, movingRight = false, movingUp = false, movingDown = false
 
 
 function setup() {
@@ -12,6 +15,10 @@ function setup() {
   fishY = height / 2;
   fishSize = 50;
   fishColor = color(200, 100, 100);
+  fishColor2 = color(173, 216, 230)
+  fish2X = width / 2;
+  fish2Y = height / 2;
+  fish2Size = 75;
 
 
   // Initialize bubbles
@@ -75,6 +82,31 @@ function draw() {
   } else {
     fishColor = color(200, 100, 100);
   }
+
+  // Draw fish2
+  fill(fishColor2);
+  ellipse(fish2X, fish2Y, fish2Size, fish2Size / 2);
+  triangle(fish2X - fish2Size / 2, fish2Y, fish2X - fish2Size, fish2Y - fish2Size / 4, fish2X - fish2Size, fish2Y + fish2Size / 4);
+
+  if(movingLeft) {
+    fish2X -= 10
+  }
+  if(movingUp) {
+    fish2Y -= 10
+  }
+  if(movingDown) {
+    fish2Y += 10
+  }
+  if(movingRight) {
+    fish2X += 10
+  }
+
+  if (dist(fish2X, fish2Y, foodX, foodY) < fish2Size / 2 && foodDropped) {
+    fish2Color = color(100, 200, 100);
+    foodDropped = false;
+  } else {
+    fish2Color = color(200, 100, 100);
+  }
 }
 
 
@@ -85,6 +117,26 @@ function keyPressed() {
     foodY = 0;
     foodDropped = true;
   }
+
+  if (key == "ArrowLeft") {
+    movingLeft = true
+  } else if (key == "ArrowUp") {
+    movingUp = true
+  } else if (key == "ArrowRight") {
+    movingRight = true
+  } else if (key == "ArrowDown") {
+    movingDown = true
+  }
 }
 
-
+function keyReleased(){
+  if (key == "ArrowLeft") {
+    movingLeft = false
+  } else if (key == "ArrowUp") {
+    movingUp = false
+  } else if (key == "ArrowRight") {
+    movingRight = false
+  } else if (key == "ArrowDown") {
+    movingDown = false
+  }
+}
